@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- ========================= BAC DEFINITIONS ======================== -->
+
+	<bean id="procedureBACTarget" class="com.qat.samples.sysmgmt.bac.impl.ProcedureBACImpl">
+		<property name="procedureBAR" ref="procedureBARTarget"/>
+		<property name="validationController" ref="procedureValidationController"/>
+	</bean>
+
+	<bean id="countyBACTarget" class="com.qat.samples.sysmgmt.bac.impl.CountyBACImpl">
+		<property name="countyBAR" ref="countyBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="siteBACTarget" class="com.qat.samples.sysmgmt.bac.Site.SiteBACImpl">
+		<property name="siteBAR" ref="siteBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="empresaBACTarget" class="com.qat.samples.sysmgmt.bac.Empresa.EmpresaBACImpl">
+		<property name="empresaBAR" ref="empresaBARTarget"/>
+		<property name="doisValorBAR" ref="doisValorBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="cadastrosBACTarget" class="com.qat.samples.sysmgmt.bac.Cadastros.CadastrosBACImpl">
+		<property name="cadastrosBAR" ref="cadastrosBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="comprasBACTarget" class="com.qat.samples.sysmgmt.bac.Compras.ComprasBACImpl">
+		<property name="comprasBAR" ref="comprasBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="financeiroBACTarget" class="com.qat.samples.sysmgmt.bac.Financeiro.FinanceiroBACImpl">
+		<property name="financeiroBAR" ref="financeiroBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="historicoBACTarget" class="com.qat.samples.sysmgmt.bac.Historico.HistoricoBACImpl">
+		<property name="historicoBAR" ref="historicoBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="fiscalBACTarget" class="com.qat.samples.sysmgmt.bac.Fiscal.FiscalBACImpl">
+		<property name="fiscalBAR" ref="fiscalBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="pessoaBACTarget" class="com.qat.samples.sysmgmt.bac.Pessoa.PessoaBACImpl">
+		<property name="pessoaBAR" ref="pessoaBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="produtoBACTarget" class="com.qat.samples.sysmgmt.bac.Produto.ProdutoBACImpl">
+		<property name="produtoBAR" ref="produtoBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="clinicaBACTarget" class="com.qat.samples.sysmgmt.bac.Clinica.ClinicaBACImpl">
+		<property name="clinicaBAR" ref="clinicaBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="dicionarioBACTarget" class="com.qat.samples.sysmgmt.bac.Dicionario.DicionarioBACImpl">
+		<property name="dicionarioBAR" ref="dicionarioBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="advocaciaBACTarget" class="com.qat.samples.sysmgmt.bac.Advogado.AdvocaciaBACImpl">
+		<property name="advocaciaBAR" ref="advocaciaBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="condominioBACTarget" class="com.qat.samples.sysmgmt.bac.Condominio.CondominioBACImpl">
+		<property name="condominioBAR" ref="condominioBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="vendasBACTarget" class="com.qat.samples.sysmgmt.bac.Vendas.VendasBACImpl">
+		<property name="vendasBAR" ref="vendasBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="dpBACTarget" class="com.qat.samples.sysmgmt.bac.Dp.DpBACImpl">
+		<property name="dpBAR" ref="dpBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<bean id="configuracaoBACTarget" class="com.qat.samples.sysmgmt.bac.Configuracao.ConfiguracaoBACImpl">
+		<property name="configuracaoBAR" ref="configuracaoBARTarget"/>
+		<property name="validationController" ref="countyValidationController"/>
+	</bean>
+
+	<!-- ========================= ASPECT CONFIGURATION ======================== -->
+
+	<!-- ========================= InternalResponse status categories ========== -->
+
+ 	<bean id="statusCategoryXRef" class="com.qat.framework.util.StatusCategoryXRefImpl" >
+		<property name="statusCategoryExtensionMap" ref="statusCategoryExtensionMap" />
+	</bean>
+
+    <!-- This mapping causes an Optimistic Locking error to be a System Error instead of a Business Error
+         This will cause an operation success check to result in false. -->
+	<bean id="statusCategoryExtensionMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="com.qat.framework.model.response.InternalResponse.StatusCategory">
+				<entry key="#{optimisticLockingEnumName}" value-ref="systemErrorEnumType" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="businessErrorEnumType" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="com.qat.framework.model.response.InternalResponse$StatusCategory.BusinessError"/>
+	</bean>
+	<bean id="systemErrorEnumType" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="com.qat.framework.model.response.InternalResponse$StatusCategory.SystemError"/>
+	</bean>
+	<bean id="notAnErrorEnumType" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="com.qat.framework.model.response.InternalResponse$StatusCategory.NotAnError"/>
+	</bean>
+
+	<bean id="noRowsFoundEnumType" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="com.qat.framework.model.response.InternalResponse$BusinessErrorCategory.NoRowsFound"/>
+	</bean>
+
+	<bean id="noRowsInsertedEnumType" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="com.qat.framework.model.response.InternalResponse$BusinessErrorCategory.NoRowsInserted"/>
+	</bean>
+	<bean id="noRowsInsertedEnumName" factory-bean="noRowsInsertedEnumType" factory-method="name" />
+	<bean id="noRowsRemovedEnumType" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="com.qat.framework.model.response.InternalResponse$BusinessErrorCategory.NoRowsRemoved"/>
+	</bean>
+	<bean id="noRowsRemovedEnumName" factory-bean="noRowsRemovedEnumType" factory-method="name" />
+	<bean id="noRowsUpdatedEnumType" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="com.qat.framework.model.response.InternalResponse$BusinessErrorCategory.NoRowsUpdated"/>
+	</bean>
+	<bean id="noRowsUpdatedEnumName" factory-bean="noRowsUpdatedEnumType" factory-method="name" />
+	<bean id="optimisticLockingEnumType" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="com.qat.framework.model.response.InternalResponse$BusinessErrorCategory.OptimisticLocking"/>
+	</bean>
+	<bean id="optimisticLockingEnumName" factory-bean="optimisticLockingEnumType" factory-method="name" />
+
+</beans>
